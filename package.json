@@ -1,0 +1,33 @@
+{
+  "name": "build-llm-apps-with-langchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "nodemon",
+    "dev:fast": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "clean": "rimraf dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/anthropic": "^0.3.11",
+    "@langchain/community": "^0.3.24",
+    "@langchain/core": "^0.3.29",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "ts-node-dev": "^2.0.0"
+  }
+}
