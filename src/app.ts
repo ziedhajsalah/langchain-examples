@@ -33,20 +33,33 @@ app.post(apiPrefix + "/claude/stream", async (req: Request, res: Response) => {
   //   res.json({ output });
   // });
   const stream = await getClaudeOutputStream(input);
-  const reader = stream.getReader();
+  // const reader = stream.getReader();
   res.setHeader("Content-Type", "text/plain");
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      console.log(value);
-      res.write(value);
-    }
-    res.end();
-  } catch (err) {
-    console.error("Streaming error:", err);
-    res.status(500).send("Streaming error");
-  }
+  const writable = new WritableStream({
+    write(chunk) {
+      res.write(chunk);
+    },
+    close() {
+      res.end();
+    },
+    abort(err) {
+      console.error("Stream aborted:", err);
+      res.status(500).end("Streaming error");
+    },
+  });
+  stream.pipeTo(writable);
+  // try {
+  //   while (true) {
+  //     const { done, value } = await reader.read();
+  //     if (done) break;
+  //     console.log(value);
+  //     res.write(value);
+  //   }
+  //   res.end();
+  // } catch (err) {
+  //   console.error("Streaming error:", err);
+  //   res.status(500).send("Streaming error");
+  // }
 });
 
 app.listen(port, () => {
